@@ -103,7 +103,7 @@ internal class MemoryGroup : IGroup, IHardwareChanged
         {
             lock (_lock)
             {
-                if (!_opened)
+                if (_opened)
                 {
                     return true;
                 }
