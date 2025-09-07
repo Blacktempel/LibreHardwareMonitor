@@ -11,20 +11,20 @@ internal class PawnIO
     [DllImport("kernel32", SetLastError = true)]
     static extern IntPtr LoadLibrary(string lpFileName);
 
-    [DllImport("PawnIOLib", ExactSpelling = true, PreserveSig = false)]
+    [DllImport("PawnIOLib", ExactSpelling = true)]
     private static extern void pawnio_version(out uint version);
 
-    [DllImport("PawnIOLib", ExactSpelling = true, PreserveSig = false)]
+    [DllImport("PawnIOLib", ExactSpelling = true)]
     private static extern void pawnio_open(out IntPtr handle);
 
-    [DllImport("PawnIOLib", ExactSpelling = true, PreserveSig = false)]
+    [DllImport("PawnIOLib", ExactSpelling = true)]
     private static extern unsafe void pawnio_load(IntPtr handle, byte* blob, IntPtr size);
 
-    [DllImport("PawnIOLib", ExactSpelling = true, PreserveSig = false)]
+    [DllImport("PawnIOLib", ExactSpelling = true)]
     private static extern int pawnio_execute(IntPtr handle, [MarshalAs(UnmanagedType.LPStr)] string name,
         long[] inArray, IntPtr inSize, long[] outArray, IntPtr outSize, out IntPtr returnSize);
 
-    [DllImport("PawnIOLib", ExactSpelling = true, PreserveSig = false)]
+    [DllImport("PawnIOLib", ExactSpelling = true)]
     private static extern void pawnio_close(IntPtr handle);
 
 
