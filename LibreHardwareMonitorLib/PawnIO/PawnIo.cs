@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Threading;
 using Microsoft.Win32;
 
 namespace LibreHardwareMonitor.PawnIo;
@@ -23,7 +21,7 @@ internal class PawnIO
     private static extern unsafe void pawnio_load(IntPtr handle, byte* blob, IntPtr size);
 
     [DllImport("PawnIOLib", ExactSpelling = true, PreserveSig = false)]
-    private static extern void pawnio_execute(IntPtr handle, [MarshalAs(UnmanagedType.LPStr)] string name,
+    private static extern int pawnio_execute(IntPtr handle, [MarshalAs(UnmanagedType.LPStr)] string name,
         long[] inArray, IntPtr inSize, long[] outArray, IntPtr outSize, out IntPtr returnSize);
 
     [DllImport("PawnIOLib", ExactSpelling = true, PreserveSig = false)]
@@ -121,6 +119,15 @@ internal class PawnIO
             out nint returnLength);
         Array.Resize(ref outArray, (int)returnLength);
         return outArray;
+    }
+
+    public int Execute(string name, long[] inBuffer, uint inSize, long[] outBuffer, uint outSize, out uint returnSize)
+    {
+        int ret = pawnio_execute(_handle, name, inBuffer, (IntPtr)inSize, outBuffer, (IntPtr)outSize, out var retSize);
+
+        returnSize = (uint)retSize;
+
+        return ret;
     }
 
     private IntPtr _handle;
